@@ -24,6 +24,7 @@ public class FileConstants {
         stringBuilder.append("D:\\MyDocs\\University\\");
         stringBuilder.append(subjectName);
         stringBuilder.append("\\");
+        stringBuilder.append("Pictures\\");
         return stringBuilder.toString();
     }
 
@@ -33,7 +34,7 @@ public class FileConstants {
         courses.put(12 , "Technical Writing" );
         courses.put(13 , "C#");
     }
-    
+
     public static void createCourses() {
         courses.forEach((integer, s) -> {
             Path newFolder = Paths.get(getPath(s) + '\\');
