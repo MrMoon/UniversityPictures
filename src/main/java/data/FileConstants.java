@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class FileConstants {
     public static final String PATH = "D:\\MyDocs\\University\\Temp";
     public static final String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
-    public static final HashMap<Integer , String> courses = new HashMap<>();
+    public static final HashMap<Integer, String> courses = new HashMap<>();
 
     public static void init() {
         fillCourses();
@@ -29,16 +29,16 @@ public class FileConstants {
     }
 
     public static void fillCourses() {
-        courses.put(9 , "Digital Logic Design" );
-        courses.put(11 , "Statistics");
-        courses.put(12 , "Technical Writing" );
-        courses.put(13 , "C#");
+        courses.put(9, "Digital Logic Design");
+        courses.put(11, "Statistics");
+        courses.put(12, "Technical Writing");
+        courses.put(13, "C#");
     }
 
     public static void createCourses() {
         courses.forEach((integer, s) -> {
             Path newFolder = Paths.get(getPath(s) + '\\');
-            if(!Files.exists(newFolder)) {
+            if (!Files.exists(newFolder)) {
                 try {
                     Files.createDirectory(newFolder);
                 } catch (IOException e) {
