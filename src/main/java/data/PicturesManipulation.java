@@ -20,7 +20,7 @@ public class PicturesManipulation {
     /**
      * Move Pictures to it's file
      */
-    public void manipulatePictures() throws IOException, ParseException {
-        readFolder.manipulate(path);
+    public int manipulatePictures() throws IOException, ParseException {
+        return readFolder.manipulate(path).size();
     }
 }

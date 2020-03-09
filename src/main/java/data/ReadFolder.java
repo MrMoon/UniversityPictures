@@ -21,7 +21,6 @@ import model.Picture;
 import model.Result;
 
 import static data.FileConstants.DATE_FORMAT;
-import static data.FileConstants.PATH;
 
 /**
  * Main Class to Read the Folder and manipulate it
@@ -40,8 +39,8 @@ class ReadFolder {
     private Result<Set<Picture>> readFolder(String path) throws IOException, ParseException {
         FileConstants.init();
         HashSet<Picture> pictures = new HashSet<>();
-        File folder = new File(PATH);
-        System.out.println(folder.getName());
+        File folder = new File(path);
+        System.out.println("Main Folder Name " + folder.getName());
         if (!folder.exists()) {
             System.out.println("No Such Folder Exists");
             return new Result<>(0, null);
@@ -49,15 +48,14 @@ class ReadFolder {
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             BasicFileAttributes fileAttributes = Files.readAttributes(Paths.get(file.getPath()), BasicFileAttributes.class);
             Picture picture = new Picture(getSubject(dateFormat.parse(dateFormat.format(fileAttributes.lastModifiedTime().toMillis())).toInstant().atZone(ZoneId.systemDefault()).getHour()), file);
+            String src = folder.getAbsolutePath() + '\\' + file.getName() , dest = FileConstants.getPath(picture.getSubjectName()) + '\\' + file.getName();
             pictures.add(picture);
-            String src = folder.getAbsolutePath() + '\\' + file.getName(), dest = FileConstants.getPath(picture.getSubjectName()) + '\\' + file.getName();
             try {
                 Files.move(Paths.get(src), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Number of pictures = " + pictures.size());
         return new Result<>(pictures.size(), pictures);
     }
 
@@ -73,7 +71,7 @@ class ReadFolder {
         return course.orElse("NoSubject");
     }
 
-    public void manipulate(String path) throws IOException, ParseException {
-        readFolder(path);
+    public Set<Picture> manipulate(String path) throws IOException, ParseException {
+        return readFolder(path).getPictures();
     }
 }
