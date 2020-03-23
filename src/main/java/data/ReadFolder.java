@@ -21,6 +21,7 @@ import model.Picture;
 import model.Result;
 
 import static data.FileConstants.DATE_FORMAT;
+import static data.FileConstants.NAN;
 
 /**
  * Main Class to Read the Folder and manipulate it
@@ -47,7 +48,8 @@ class ReadFolder {
         }
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             BasicFileAttributes fileAttributes = Files.readAttributes(Paths.get(file.getPath()), BasicFileAttributes.class);
-            Picture picture = new Picture(getSubject(dateFormat.parse(dateFormat.format(fileAttributes.lastModifiedTime().toMillis())).toInstant().atZone(ZoneId.systemDefault()).getHour()), file);
+            String subject = getSubject(dateFormat.parse(dateFormat.format(fileAttributes.lastModifiedTime().toMillis())).toInstant().atZone(ZoneId.systemDefault()).getHour());
+            Picture picture = new Picture(subject , file);
             String src = folder.getAbsolutePath() + '\\' + file.getName() , dest = FileConstants.getPath(picture.getSubjectName()) + '\\' + file.getName();
             pictures.add(picture);
             try {
@@ -68,7 +70,7 @@ class ReadFolder {
     @Contract (pure = true)
     private String getSubject(int hour) {
         Optional<String> course = Optional.ofNullable(FileConstants.courses.get(hour));
-        return course.orElse("NoSubject");
+        return course.orElse(NAN);
     }
 
     public Set<Picture> manipulate(String path) throws IOException, ParseException {
