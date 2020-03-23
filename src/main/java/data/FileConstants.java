@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class FileConstants {
     public static final String PATH = "D:\\MyDocs\\University\\Temp";
     public static final String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
+    public static final String NAN = "NoSubject";
     public static final HashMap<Integer, String> courses = new HashMap<>();
 
     public static void init() {
